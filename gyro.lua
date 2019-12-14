@@ -3,7 +3,6 @@ function sysCall_init()
     ref=sim.getObjectHandle('GyroSensor_reference')
     ui=simGetUIHandle('GyroSensor_UI')
     simSetUIButtonLabel(ui,0,sim.getObjectName(modelBase))
-    gyroCommunicationTube=sim.tubeOpen(0,'gyroData'..sim.getNameSuffix(nil),1)
     oldTransformationMatrix=sim.getObjectMatrix(ref,-1)
     lastTime=sim.getSimulationTime()
 end
@@ -23,11 +22,12 @@ function sysCall_sensing()
         gyroData[2]=euler[2]/dt
         gyroData[3]=euler[3]/dt
     end
-    sim.tubeWrite(gyroCommunicationTube,sim.packFloatTable(gyroData))
+    simSetStringSignal("gyroscopeData", sim.packFloatTable(gyroData))
     simSetUIButtonLabel(ui,3,string.format("X-Gyro: %.4f",gyroData[1]))
     simSetUIButtonLabel(ui,4,string.format("Y-Gyro: %.4f",gyroData[2]))
     simSetUIButtonLabel(ui,5,string.format("Z-Gyro: %.4f",gyroData[3]))
     oldTransformationMatrix=sim.copyMatrix(transformationMatrix)
+    lastTime = currentTime
 
     -- To read data from this gyro sensor in another script, use following code:
     --
