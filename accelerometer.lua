@@ -17,7 +17,7 @@ function sysCall_sensing()
     result,force=sim.readForceSensor(sensor)
     if (result>0) then
         accel={force[1]/mass,force[2]/mass,force[3]/mass}
-        simSetStringSignal("accelerometerData",simPackFloats(accel))
+        simSetStringSignal("accelerometerData",sim.packFloatTable(accel))
         simSetUIButtonLabel(ui,3,string.format("X-Accel: %.4f",accel[1]))
         simSetUIButtonLabel(ui,4,string.format("Y-Accel: %.4f",accel[2]))
         simSetUIButtonLabel(ui,5,string.format("Z-Accel: %.4f",accel[3]))
